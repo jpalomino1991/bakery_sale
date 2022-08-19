@@ -7,19 +7,21 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Bakery.Sale.RestAdapter.UnitTest.Controllers
 {
     public class SaleControllerTest
     {
-        private BakeryController _controller;
+        private SaleController _controller;
         private Mock<IRequestSale<SaleEntity>> _requestSaleMock;
 
         [SetUp]
         public void Setup()
         {
             _requestSaleMock = new Mock<IRequestSale<SaleEntity>>();
-            _controller = new BakeryController(_requestSaleMock.Object);
+            _controller = new SaleController(_requestSaleMock.Object);
         }
 
         [Test]
@@ -57,12 +59,14 @@ namespace Bakery.Sale.RestAdapter.UnitTest.Controllers
         }
 
         [Test]
-        public void AddInventoryTestOkResult()
+        public async Task AddInventoryTestOkResult()
         {
             var Sale = GetSalePost();
-            _requestSaleMock.Setup(mock => mock.AddSale(It.IsAny<SaleEntity>()))
-            .Returns(GetSale());
-            var response = _controller.Post(Sale);
+            _requestSaleMock.Setup(mock => mock.AddSaleAsync(It.IsAny<SaleEntity>()))
+            .Returns(Task.FromResult(GetSale()));
+
+            var response = await _controller.Post(Sale);
+
             Assert.IsInstanceOf<OkObjectResult>(response);
             var result = (OkObjectResult)response;
             Assert.IsNotNull(result);

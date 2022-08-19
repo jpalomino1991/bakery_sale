@@ -7,7 +7,7 @@ namespace Bakery.Sale.DomainApi.Port
     {
         List<T> GetSale();
         T GetSaleById(int id);
-        T AddSale(T dto);
+        Task<T> AddSaleAsync(T dto);
         T UpdateSale(int id, T dto);
         T RemoveSaleById(int id);
         List<T> RemoveSaleByInvoice(string invoice);

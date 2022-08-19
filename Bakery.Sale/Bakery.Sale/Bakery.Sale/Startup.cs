@@ -50,6 +50,7 @@ namespace Bakery.Sale
 
             services.AddHealthCheck();
 
+            services.AddCustomServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory log)
