@@ -21,11 +21,11 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
 
         // GET: api/<SaleController>
         [HttpGet]
-        public  List<SaleReadDto> Get()
+        public IActionResult Get()
         {
             List<SaleReadDto> saleRead = new List<SaleReadDto>();
 
-            var results = _SaleService.GetSale();
+            var results  = _SaleService.GetSale();
             foreach (var result in results)
             {
                 var sale = new SaleReadDto {
@@ -39,7 +39,7 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
 
                 saleRead.Add(sale);
             }
-            return saleRead;
+            return Ok(saleRead);
         }
 
         // GET api/<SaleController>/5
@@ -63,7 +63,7 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
 
         // POST api/<SaleController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] SaleRegisterDto Sale)
+        public IActionResult Post([FromBody] SaleRegisterDto Sale)
         {
 
             if (Sale.Product_Id.Count <= 0)
