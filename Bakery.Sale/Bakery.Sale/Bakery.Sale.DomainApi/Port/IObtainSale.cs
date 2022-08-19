@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Bakery.Sale.DomainApi.Port
 {
-    public interface IObtainDeal<T>
+    public interface IObtainSale<T>
     {
-        List<Deal> GetDeals();
-        Deal GetDeal(T id);
+        List<SaleEntity> GetDeals();
+        SaleEntity GetDeal(T id);
     }
 }

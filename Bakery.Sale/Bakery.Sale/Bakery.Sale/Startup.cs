@@ -1,9 +1,13 @@
 using Bakery.Sale.Domain;
+using Bakery.Sale.DomainApi;
 using Bakery.Sale.DomainApi.Services;
 using Bakery.Sale.Extension;
 using Bakery.Sale.Persistence.Adapter;
+using Bakery.Sale.Persistence.Adapter.Context;
+using Bakery.Sale.Persistence.Adapter.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,6 +22,7 @@ namespace Bakery.Sale
         public IConfiguration Configuration { get; }
         private AppSettings AppSettings { get; set; }
 
+
         public Startup(IConfiguration configuration)
         {
             Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
@@ -29,9 +34,11 @@ namespace Bakery.Sale
 
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddMicrosoftIdentityWebApiAuthentication(Configuration, "AzureAd");
 
             services.AddControllers();
+
 
             services.AddPersistence();
 

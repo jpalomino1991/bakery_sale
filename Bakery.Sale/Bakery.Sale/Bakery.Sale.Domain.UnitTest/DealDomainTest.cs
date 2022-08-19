@@ -6,7 +6,7 @@ namespace Bakery.Sale.Domain.UnitTest
 {
     public class DealDomainTest
     {
-        private DealDomain<Deal> _dealDomain;
+        /*private DealDomain<Deal> _dealDomain;
 
         [Test]
         public void GetDealsTest()
@@ -31,6 +31,6 @@ namespace Bakery.Sale.Domain.UnitTest
             Assert.AreEqual("ABC", deals.Name);
             Assert.AreEqual("ABC deal 123", deals.Description);
 
-        }
+        }*/
     }
 }

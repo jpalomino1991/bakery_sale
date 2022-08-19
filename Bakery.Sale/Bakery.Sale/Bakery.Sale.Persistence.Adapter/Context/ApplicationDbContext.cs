@@ -1,25 +1,30 @@
-﻿using Bakery.Sale.DomainApi.Model;
+﻿using Bakery.Sale.DomainApi;
+using Bakery.Sale.DomainApi.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Bakery.Sale.Persistence.Adapter.Context
 {
-    public class ApplicationDbContext : DbContext
+    public class AppDbContext : DbContext
     {
-        public ApplicationDbContext()
+        public AppDbContext()
         {
         }
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
 
-        public DbSet<Deal> Deals { get; set; }
+        #region DbSets
+
+        public DbSet<SaleEntity> Sale { get; set; }
+
+        #endregion
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             return base.SaveChangesAsync(cancellationToken);
         }
-
     }
 }

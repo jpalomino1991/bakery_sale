@@ -8,6 +8,7 @@ namespace Bakery.Sale.Persistence.Adapter.UnitTest.Context
 {
     public class ApplicationDbContextTest
     {
+        /*
         [Test]
         public void CanInsertDealIntoDatabase()
         {
@@ -31,5 +32,6 @@ namespace Bakery.Sale.Persistence.Adapter.UnitTest.Context
             context.Deals.Remove(Deal);
             Assert.AreEqual(EntityState.Deleted, context.Entry(Deal).State);
         }
+        */
     }
 }

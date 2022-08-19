@@ -8,6 +8,7 @@ namespace Bakery.Sale.Persistence.Adapter.UnitTest.Common
 {
     public static class ApplicationDbContextFactory
     {
+        /*
         public static List<Deal> GetDeals()
         {
             return new List<Deal>()
@@ -35,5 +36,6 @@ namespace Bakery.Sale.Persistence.Adapter.UnitTest.Common
             dbContext.Database.EnsureDeleted();
             dbContext.Dispose();
         }
+        */
     }
 }

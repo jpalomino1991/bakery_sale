@@ -7,7 +7,7 @@ namespace Bakery.Sale.Domain
     {
         public static void AddDomain(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient(typeof(IRequestDeal<>), typeof(DealDomain<>));
+            serviceCollection.AddTransient(typeof(IRequestSale<>), typeof(SaleDomain<>));
         }
     }
 }

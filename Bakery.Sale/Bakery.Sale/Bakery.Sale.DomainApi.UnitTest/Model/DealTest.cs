@@ -5,6 +5,7 @@ namespace Bakery.Sale.DomainApi.UnitTest.Model
 {
     public class DealTest
     {
+        /*
         private readonly Deal _deal;
         private const string Name = "Test Deal name";
         private const string Description = "Test Deal description";
@@ -27,5 +28,6 @@ namespace Bakery.Sale.DomainApi.UnitTest.Model
             _deal.Description = Description;
             Assert.AreEqual(Description, _deal.Description);
         }
+        */
     }
 }

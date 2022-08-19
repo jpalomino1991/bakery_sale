@@ -6,6 +6,7 @@ namespace Bakery.Sale.DomainApi.UnitTest.Model
 {
     public class DealInfoTest
     {
+        /*
         private readonly DealInfo _dealInfo;
 
         public DealInfoTest()
@@ -25,5 +26,6 @@ namespace Bakery.Sale.DomainApi.UnitTest.Model
             return
                 new List<Deal> { new Deal { Description = "", Name = "" } };
         }
+        */
     }
 }

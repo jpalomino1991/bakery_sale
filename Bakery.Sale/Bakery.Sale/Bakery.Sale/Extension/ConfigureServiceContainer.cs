@@ -1,4 +1,5 @@
 ﻿using Bakery.Sale.DomainApi.Services;
+using Bakery.Sale.Persistence.Adapter;
 using Bakery.Sale.Persistence.Adapter.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -61,7 +62,7 @@ namespace Bakery.Sale.Extension
         public static void AddHealthCheck(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddHealthChecks()
-               .AddDbContextCheck<ApplicationDbContext>(name: "Application DB Context", failureStatus: HealthStatus.Degraded)
+               .AddDbContextCheck<AppDbContext>(name: "Application DB Context", failureStatus: HealthStatus.Degraded)
                .AddUrlGroup(new Uri("https://amitpnk.github.io/"), name: "My personal website", failureStatus: HealthStatus.Degraded);
 
             serviceCollection.AddHealthChecksUI(setupSettings: setup =>
