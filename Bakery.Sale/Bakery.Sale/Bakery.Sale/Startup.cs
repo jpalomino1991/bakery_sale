@@ -1,4 +1,7 @@
+using Bakery.Commons.Bakery.Commons.Domain.Port;
 using Bakery.Sale.Domain;
+using Bakery.Sale.DomainApi.Model;
+using Bakery.Sale.DomainApi.Port;
 using Bakery.Sale.DomainApi.Services;
 using Bakery.Sale.Extension;
 using Bakery.Sale.Persistence.Adapter;
@@ -10,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Web;
 using Serilog;
+using System;
 
 namespace Bakery.Sale
 {
@@ -17,6 +21,8 @@ namespace Bakery.Sale
     {
         public IConfiguration Configuration { get; }
         private AppSettings AppSettings { get; set; }
+
+        private IRequestDeal<Deal> _dealDomain;
 
         public Startup(IConfiguration configuration)
         {
@@ -43,9 +49,11 @@ namespace Bakery.Sale
 
             services.AddHealthCheck();
 
+            services.AddCustomServices();
+
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory log)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory log, IServiceProvider provider)
         {
             if (env.IsDevelopment())
             {
@@ -70,6 +78,17 @@ namespace Bakery.Sale
             {
                 endpoints.MapControllers();
             });
+
+            //using (var serviceScope = app.ApplicationServices.CreateScope())
+            //{
+            //    var processQueue = serviceScope.ServiceProvider.GetService<IProcessQueue>();
+            //    processQueue.Initialize();
+            //}
+
+            var processQueue = provider.GetService<IProcessQueue>();
+            processQueue.Initialize();
         }
+
+
     }
 }

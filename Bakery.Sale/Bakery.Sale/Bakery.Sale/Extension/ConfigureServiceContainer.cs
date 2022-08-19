@@ -1,4 +1,7 @@
-﻿using Bakery.Sale.DomainApi.Services;
+﻿using Bakery.Commons.Bakery.Commons.Domain.Port;
+using Bakery.Commons.Bakery.Commons.Domain.Service;
+using Bakery.Sale.Domain;
+using Bakery.Sale.DomainApi.Services;
 using Bakery.Sale.Persistence.Adapter.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -70,5 +73,10 @@ namespace Bakery.Sale.Extension
             });
         }
 
+        public static void AddCustomServices(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddTransient(typeof(IServiceBusHelper), typeof(ServiceBusHelper));
+            serviceCollection.AddTransient(typeof(IProcessQueue), typeof(ProcessQueue));
+        }
     }
 }
