@@ -66,7 +66,6 @@ namespace Bakery.Sale.RestAdapter.UnitTest.Controllers
             .Returns(Task.FromResult(GetSale()));
 
             var response = await _controller.Post(Sale);
-
             Assert.IsInstanceOf<OkObjectResult>(response);
             var result = (OkObjectResult)response;
             Assert.IsNotNull(result);

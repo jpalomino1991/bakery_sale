@@ -84,12 +84,13 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
                     Product_Id = product,
                     QRCode = Sale.QRCode,
                     Quantity = Sale.Quantity[iterator],
-                    UserName = User.Identity.Name
                 };
-                _SaleService.AddSale(sale);
+                if (User != null)
+                    sale.UserName = User.Identity.Name;
+                await _SaleService.AddSaleAsync(sale);
                 iterator++;
             }
-            return Ok();
+            return Ok(true);
         }
 
         // PUT api/<SaleController>/5
