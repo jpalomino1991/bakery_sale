@@ -16,7 +16,7 @@ namespace Bakery.Sale.RestAdapter.UnitTest.Controllers
         public void Setup()
         {
             _requestDealMock = new Mock<IRequestDeal<Deal>>();
-            _controller = new DealController(_requestDealMock.Object);
+            //_controller = new DealController(_requestDealMock.Object);
         }
 
         [Test]

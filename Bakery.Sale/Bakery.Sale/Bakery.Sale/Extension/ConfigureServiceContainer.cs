@@ -76,6 +76,7 @@ namespace Bakery.Sale.Extension
         public static void AddCustomServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient(typeof(IServiceBusHelper), typeof(ServiceBusHelper));
+            serviceCollection.AddTransient(typeof(IStorageAccountHelper), typeof(StorageAccountHelper));
             serviceCollection.AddTransient(typeof(IProcessQueue), typeof(ProcessQueue));
         }
     }

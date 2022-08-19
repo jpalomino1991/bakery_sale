@@ -31,7 +31,7 @@ namespace Bakery.Sale.Domain
         public async Task Initialize()
         {
             var d = _requestDeal.GetDeals();
-            await _serviceBusHelper.ProcessAsync(MessageHandler);
+            //await _serviceBusHelper.ProcessAsync(MessageHandler);
         }
 
         private async Task MessageHandler(ProcessMessageEventArgs args)
