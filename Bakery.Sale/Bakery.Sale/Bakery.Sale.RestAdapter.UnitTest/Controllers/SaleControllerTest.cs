@@ -59,13 +59,13 @@ namespace Bakery.Sale.RestAdapter.UnitTest.Controllers
         }
 
         [Test]
-        public async Task AddInventoryTestOkResult()
+        public async Task AddSaleTestOkResult()
         {
             var Sale = GetSalePost();
             _requestSaleMock.Setup(mock => mock.AddSaleAsync(It.IsAny<SaleEntity>()))
             .Returns(Task.FromResult(GetSale()));
 
-            var response = await _controller.Post(Sale);
+            var response = _controller.Post(Sale);
             Assert.IsInstanceOf<OkObjectResult>(response);
             var result = (OkObjectResult)response;
             Assert.IsNotNull(result);
