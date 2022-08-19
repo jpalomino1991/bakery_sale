@@ -1,4 +1,6 @@
-﻿using Bakery.Sale.DomainApi.Model;
+﻿using Bakery.Commons.Bakery.Commons.Domain.Model;
+using Bakery.Commons.Bakery.Commons.Domain.Port;
+using Bakery.Sale.DomainApi.Model;
 using Bakery.Sale.DomainApi.Port;
 using Bakery.Sale.Persistence.Adapter.Context;
 using Bakery.Sale.Persistence.Adapter.Dto;
@@ -15,12 +17,13 @@ namespace Bakery.Sale.Domain
     {
 
         AppDbContext _dbContext;
-
+        private readonly IServiceBusHelper _serviceBusHelper;
         private readonly DbSet<T> table;
 
-        public SaleDomain(AppDbContext dbContext)
+        public SaleDomain(AppDbContext dbContext, IServiceBusHelper serviceBusHelper)
         {
-            this._dbContext = dbContext;
+            _dbContext = dbContext;
+            _serviceBusHelper = serviceBusHelper;
             table = _dbContext.Set<T>();
         }
 
@@ -37,10 +40,20 @@ namespace Bakery.Sale.Domain
         }
 
 
-        public T AddSale(T dto)
+        public async Task<T> AddSaleAsync(T dto)
         {
            table.Add(dto);
            _dbContext.SaveChanges();
+            await _serviceBusHelper.SendAsync(new ServiceBusMessage<InventorySold>
+            {
+                Operation = ServiceBusOperation.Update,
+                Message = new InventorySold
+                {
+                    ProductId = dto.Product_Id,
+                    Quantity = dto.Quantity,
+                },
+                User = dto.UserName,
+            });
            return dto;
         }
 

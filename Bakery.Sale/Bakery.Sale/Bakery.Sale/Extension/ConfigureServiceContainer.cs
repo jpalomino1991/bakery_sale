@@ -1,4 +1,6 @@
-﻿using Bakery.Sale.DomainApi.Services;
+﻿using Bakery.Commons.Bakery.Commons.Domain.Port;
+using Bakery.Commons.Bakery.Commons.Domain.Service;
+using Bakery.Sale.DomainApi.Services;
 using Bakery.Sale.Persistence.Adapter;
 using Bakery.Sale.Persistence.Adapter.Context;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 
@@ -14,6 +17,7 @@ namespace Bakery.Sale.Extension
 {
     public static class ConfigureServiceContainer
     {
+        [ExcludeFromCodeCoverage]
         public static void AddSwaggerOpenAPI(this IServiceCollection serviceCollection, AppSettings appSettings)
         {
             serviceCollection.AddSwaggerGen(setupAction =>
@@ -49,6 +53,7 @@ namespace Bakery.Sale.Extension
             });
         }
 
+        [ExcludeFromCodeCoverage]
         public static void AddApiVersion(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddApiVersioning(config =>
@@ -59,6 +64,7 @@ namespace Bakery.Sale.Extension
             });
         }
 
+        [ExcludeFromCodeCoverage]
         public static void AddHealthCheck(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddHealthChecks()
@@ -71,5 +77,10 @@ namespace Bakery.Sale.Extension
             });
         }
 
+        [ExcludeFromCodeCoverage]
+        public static void AddCustomServices(this IServiceCollection serviceCollection)
+        {
+            serviceCollection.AddTransient(typeof(IServiceBusHelper), typeof(ServiceBusHelper));
+        }
     }
 }

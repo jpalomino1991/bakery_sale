@@ -2,6 +2,7 @@
 using Bakery.Sale.DomainApi.Port;
 using Bakery.Sale.Persistence.Adapter.Dto;
 using Bakery.Sale.Persistence.Adapter.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,13 @@ using System.Threading.Tasks;
 
 namespace Bakery.Sale.RestAdapter.Controllers.v1
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class BakeryController : ControllerBase
+    public class SaleController : ControllerBase
     {
         private readonly IRequestSale<SaleEntity> _SaleService;
-        public BakeryController(IRequestSale<SaleEntity> SaleService)
+        public SaleController(IRequestSale<SaleEntity> SaleService)
         {
             _SaleService = SaleService;
         }
@@ -25,7 +27,7 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
         {
             List<SaleReadDto> saleRead = new List<SaleReadDto>();
 
-            var results  = _SaleService.GetSale();
+            var results = _SaleService.GetSale();
             foreach (var result in results)
             {
                 var sale = new SaleReadDto {
@@ -67,7 +69,6 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
         [HttpPost]
         public IActionResult Post([FromBody] SaleRegisterDto Sale)
         {
-
             if (Sale.Product_Id.Count <= 0)
             {
                 return BadRequest(false);
@@ -78,17 +79,17 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
             {
                 var sale = new SaleEntity
                 {
-                    Date = DateTime.Now,
+                    Date = DateTime.UtcNow,
                     Invoice = Sale.Invoice,
                     Product_Id = product,
                     QRCode = Sale.QRCode,
                     Quantity = Sale.Quantity[iterator],
-                    UserName = Sale.User
                 };
-                _SaleService.AddSale(sale);
+                if (User != null)
+                    sale.UserName = User.Identity.Name;
+                await _SaleService.AddSaleAsync(sale);
                 iterator++;
             }
-
             return Ok(true);
         }
 
@@ -114,9 +115,9 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
                 UserName = Sale.User
             };
 
-             _SaleService.UpdateSale(id, sale);
+            _SaleService.UpdateSale(id, sale);
 
-            return Ok(status = new StatusDto { IsSuccess = true, Message = $"" });  ;
+            return status = new StatusDto { IsSuccess = true, Message = $"" };  ;
         }
 
         // DELETE api/<SaleController>/5
