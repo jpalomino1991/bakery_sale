@@ -87,7 +87,7 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
                 };
                 if (User != null)
                     sale.UserName = User.Identity.Name;
-                await _SaleService.AddSaleAsync(sale);
+                 _SaleService.AddSaleAsync(sale);
                 iterator++;
             }
             return Ok(true);
@@ -117,7 +117,7 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
 
             _SaleService.UpdateSale(id, sale);
 
-            return status = new StatusDto { IsSuccess = true, Message = $"" };  ;
+            return Ok(status = new StatusDto { IsSuccess = true, Message = $"" });
         }
 
         // DELETE api/<SaleController>/5
