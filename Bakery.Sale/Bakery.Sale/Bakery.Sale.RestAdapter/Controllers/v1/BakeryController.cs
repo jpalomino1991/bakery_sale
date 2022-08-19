@@ -29,6 +29,7 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
             foreach (var result in results)
             {
                 var sale = new SaleReadDto {
+                    Id = result.Id,
                     Invoice = result.Invoice,
                     Date = result.Date,
                     Product_Id = result.Product_Id,
@@ -50,6 +51,7 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
             if (result == null) return NotFound();
             var sale = new SaleReadDto
             {
+                Id = result.Id,
                 Invoice = result.Invoice,
                 Date = result.Date,
                 Product_Id = result.Product_Id,
@@ -71,6 +73,7 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
                 return BadRequest(false);
             }
 
+            int iterator = 0;
             foreach (var product in Sale.Product_Id)
             {
                 var sale = new SaleEntity
@@ -79,11 +82,11 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
                     Invoice = Sale.Invoice,
                     Product_Id = product,
                     QRCode = Sale.QRCode,
-                    Quantity = Sale.Quantity,
+                    Quantity = Sale.Quantity[iterator],
                     UserName = Sale.User
                 };
-
                 _SaleService.AddSale(sale);
+                iterator++;
             }
 
             return Ok(true);

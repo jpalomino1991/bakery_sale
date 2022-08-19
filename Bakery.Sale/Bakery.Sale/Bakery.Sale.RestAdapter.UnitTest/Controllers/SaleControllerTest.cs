@@ -27,42 +27,33 @@ namespace Bakery.Sale.RestAdapter.UnitTest.Controllers
         {
             _requestSaleMock.Setup(mock => mock.GetSale())
             .Returns(InitInventorieList());
-
             var response = _controller.Get();
             Assert.IsInstanceOf<OkObjectResult>(response);
             var result = (OkObjectResult)response;
             Assert.IsNotNull(result);
-            var sales = result.Value as List<SaleEntity>;
+            var sales = result.Value as List<SaleReadDto>;
             Assert.IsNotNull(sales);
             Assert.AreEqual(2, sales.Count);
             Assert.AreEqual(1, sales[0].Id);
             Assert.AreEqual(1, sales[0].Quantity);
-            Assert.AreEqual("TestUser1", sales[0].UserName);
+            Assert.AreEqual("TestUser1", sales[0].User);
         }
 
-        [Test]
-        public void GetAllDealByIdTestOkResult()
-        {
-            var response = _controller.Get(1);
-            Assert.IsInstanceOf<OkObjectResult>(response);
-        }
 
         [Test]
-        public void GetAllInventoryByIdTestOkResult()
+        public void GetAllSaleByIdTestOkResult()
         {
             _requestSaleMock.Setup(mock => mock.GetSaleById(It.IsAny<int>()))
             .Returns(GetSale());
-
             var response = _controller.Get(1);
-
             Assert.IsInstanceOf<OkObjectResult>(response);
             var result = (OkObjectResult)response;
             Assert.IsNotNull(result);
-            var sale = result.Value as SaleEntity;
+            var sale = result.Value as SaleReadDto;
             Assert.IsNotNull(sale);
             Assert.AreEqual(1, sale.Id);
             Assert.AreEqual(1, sale.Quantity);
-            Assert.AreEqual("TestUser1", sale.UserName);
+            Assert.AreEqual("TestUser1", sale.User);
         }
 
         [Test]
@@ -71,16 +62,11 @@ namespace Bakery.Sale.RestAdapter.UnitTest.Controllers
             var Sale = GetSalePost();
             _requestSaleMock.Setup(mock => mock.AddSale(It.IsAny<SaleEntity>()))
             .Returns(GetSale());
-
             var response = _controller.Post(Sale);
-
             Assert.IsInstanceOf<OkObjectResult>(response);
             var result = (OkObjectResult)response;
             Assert.IsNotNull(result);
-            var sale = result.Value as SaleEntity;
-            Assert.IsNotNull(sale);
-            Assert.AreEqual(Sale.Product_Id[0], sale.Product_Id);
-            Assert.AreEqual(Sale.User, sale.UserName);
+            Assert.IsTrue(Convert.ToBoolean(result.Value));
         }
 
         private List<SaleEntity> InitInventorieList()
@@ -131,16 +117,22 @@ namespace Bakery.Sale.RestAdapter.UnitTest.Controllers
         {
             List<int> Ids = new List<int>();
             Ids.Add(1);
+            Ids.Add(2);
+            List<int> Quantyties = new List<int>();
+            Quantyties.Add(2);
+            Quantyties.Add(6);
             return
                 new SaleRegisterDto
                 {
                     Product_Id = Ids,
-                    Quantity = 1,
+                    Quantity = Quantyties,
                     Invoice = "DHFB82",
                     User = "TestUser1",
                     QRCode = "FHK003"
                 };
         }
+
+
 
     }
 }
