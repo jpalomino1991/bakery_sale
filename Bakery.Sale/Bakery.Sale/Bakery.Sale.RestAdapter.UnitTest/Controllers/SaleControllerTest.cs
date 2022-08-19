@@ -69,6 +69,29 @@ namespace Bakery.Sale.RestAdapter.UnitTest.Controllers
             Assert.IsTrue(Convert.ToBoolean(result.Value));
         }
 
+        [Test]
+        public void DeleteSaleTestNoValue()
+        {
+            _requestSaleMock.Setup(mock => mock.RemoveSaleById(It.IsAny<int>()))
+            .Returns((SaleEntity)null);
+
+            var response = _controller.Delete(10);
+
+            Assert.IsInstanceOf<BadRequestObjectResult>(response);
+        }
+
+        [Test]
+        public void EditSaleTestNoValue()
+        {
+            var sale = GetSaleDto();
+            _requestSaleMock.Setup(mock => mock.UpdateSale(It.IsAny<int>(),It.IsAny<SaleEntity>()))
+            .Returns((SaleEntity)null);
+
+            var response = _controller.Put(15,sale);
+
+            Assert.IsInstanceOf<BadRequestObjectResult>(response);
+        }
+
         private List<SaleEntity> InitInventorieList()
         {
             var Sale = new List<SaleEntity>
@@ -98,6 +121,9 @@ namespace Bakery.Sale.RestAdapter.UnitTest.Controllers
             return Sale;
         }
 
+        
+
+
         private SaleEntity GetSale()
         {
             return
@@ -109,6 +135,20 @@ namespace Bakery.Sale.RestAdapter.UnitTest.Controllers
                     Invoice = "DHFB82",
                     Date = DateTime.Now,
                     UserName = "TestUser1",
+                    QRCode = "FHK003"
+                };
+        }
+
+        private SaleDto GetSaleDto()
+        {
+            return
+                new SaleDto
+                {
+
+                    Product_Id = 1,
+                    Quantity = 1,
+                    Invoice = "DHFB82",
+                    User= "TestUser1",
                     QRCode = "FHK003"
                 };
         }

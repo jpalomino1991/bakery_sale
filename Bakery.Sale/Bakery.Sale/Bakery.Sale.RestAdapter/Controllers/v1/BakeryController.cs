@@ -94,14 +94,14 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
 
         // PUT api/<SaleController>/5
         [HttpPut("{id}")]
-        public async Task<StatusDto> Put(int id, [FromBody] SaleDto Sale)
+        public IActionResult Put(int id, [FromBody] SaleDto Sale)
         {
             StatusDto status = new StatusDto();
             var result = _SaleService.GetSaleById(id);
             if (result is null)
             {
                 status = new StatusDto { IsSuccess = false, Message = $"Sale {id} is not valid" };
-                return status;
+                return BadRequest(status);
             }
 
             var sale = new SaleEntity
@@ -116,12 +116,12 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
 
              _SaleService.UpdateSale(id, sale);
 
-            return status = new StatusDto { IsSuccess = true, Message = $"" };  ;
+            return Ok(status = new StatusDto { IsSuccess = true, Message = $"" });  ;
         }
 
         // DELETE api/<SaleController>/5
         [HttpDelete("{id}")]
-        public async Task<StatusDto> Delete(int id)
+        public IActionResult Delete(int id)
         {
 
             StatusDto status = new StatusDto();
@@ -129,12 +129,12 @@ namespace Bakery.Sale.RestAdapter.Controllers.v1
             if (result is null)
             {
                 status = new StatusDto { IsSuccess = false, Message = $"Sale {id} is not valid" };
-                return status;
+                return BadRequest(status);
             }
 
             _SaleService.RemoveSaleById(id);
 
-            return status = new StatusDto { IsSuccess = true, Message = $"" };
+            return Ok(status = new StatusDto { IsSuccess = true, Message = $"" });
         }
     }
 }
