@@ -48,7 +48,7 @@ namespace Bakery.Sale
 
             services.AddApiVersion();
 
-            services.AddHealthCheck();
+            //services.AddHealthCheck();
 
             services.AddCustomServices();
         }
@@ -70,7 +70,7 @@ namespace Bakery.Sale
 
             app.UseSwaggerConfig();
 
-            app.UseHealthCheck();
+            //app.UseHealthCheck();
 
             log.AddSerilog();
 
